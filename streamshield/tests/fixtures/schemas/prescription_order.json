@@ -1,0 +1,62 @@
+{
+  "type": "record",
+  "name": "PrescriptionOrder",
+  "namespace": "com.vetsource.events",
+  "doc": "Integration test schema — token.* values populated at test runtime from Secret Manager",
+  "token.system": "google-cloud-dlp",
+  "token.kms-key": "__PLACEHOLDER__",
+  "token.wrapped-dek": "__PLACEHOLDER__",
+  "token.pci-kms-key": "__PLACEHOLDER__",
+  "token.pci-wrapped-dek": "__PLACEHOLDER__",
+  "token.surrogate-info-type": "VETSOURCE_PII_TOKEN",
+  "token.pci-surrogate-info-type": "VETSOURCE_PCI_TOKEN",
+  "token.default-sensitivity": "PII",
+  "token.default-reversible": "true",
+  "fields": [
+    {"name": "order_id",   "type": "string"},
+    {"name": "medication", "type": "string"},
+    {"name": "quantity",   "type": "int"},
+    {"name": "order_date", "type": "string"},
+    {"name": "is_refill",  "type": "boolean", "default": false},
+    {
+      "name": "owner_name",
+      "type": "string",
+      "logicalType": "tokenized",
+      "token.infotype": "PERSON_NAME",
+      "token.method": "CryptoDeterministicConfig"
+    },
+    {
+      "name": "owner_email",
+      "type": "string",
+      "default": "",
+      "logicalType": "tokenized",
+      "token.infotype": "EMAIL_ADDRESS",
+      "token.method": "CryptoDeterministicConfig"
+    },
+    {
+      "name": "pet_name",
+      "type": "string",
+      "logicalType": "tokenized",
+      "token.infotype": "VETSOURCE_PET_NAME",
+      "token.method": "CryptoDeterministicConfig"
+    },
+    {
+      "name": "owner_phone",
+      "type": "string",
+      "default": "",
+      "logicalType": "tokenized",
+      "token.infotype": "PHONE_NUMBER",
+      "token.method": "CryptoHashConfig",
+      "token.reversible": "false"
+    },
+    {
+      "name": "owner_payment_card",
+      "type": "string",
+      "default": "",
+      "logicalType": "tokenized",
+      "token.infotype": "CREDIT_CARD_NUMBER",
+      "token.method": "CryptoReplaceFfxFpeConfig",
+      "token.sensitivity": "PCI-DSS"
+    }
+  ]
+}

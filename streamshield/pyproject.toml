@@ -1,0 +1,76 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "streamshield"
+version = "0.1.0"
+description = "Production-grade Kafka SDK with GCP DLP tokenization and Avro Schema Registry enforcement"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    # Kafka client — Confluent's Python library (wraps librdkafka)
+    "confluent-kafka>=2.3.0,<3.0",
+    # Fast Avro library — handles Confluent wire format and schema parsing
+    "fastavro>=1.9.0,<2.0",
+    # GCP Cloud DLP — field-level tokenization and de-tokenization
+    "google-cloud-dlp>=3.15.0",
+    # GCP Cloud KMS — envelope encryption key management
+    "google-cloud-kms>=2.21.0",
+    # GCP Secret Manager — stores bootstrap servers, schema registry URL, wrapped DEKs
+    "google-cloud-secret-manager>=2.20.0",
+    # GCP Application Default Credentials — short-lived OAuth2 tokens for SASL auth
+    "google-auth>=2.28.0",
+    # HTTP client — Schema Registry REST API calls
+    "requests>=2.31.0",
+    # YAML config file support
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+# OpenTelemetry metrics — install this group for Prometheus/OTEL metrics export
+metrics = [
+    "opentelemetry-sdk>=1.23.0",
+    "opentelemetry-exporter-prometheus>=0.44b0",
+]
+# Streamlit demo apps — web UI for producer and consumer examples
+streamlit = [
+    "streamlit>=1.35.0",
+    "pandas>=2.0",
+]
+# Development and testing tools
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "pytest-asyncio>=0.23",
+    "ruff>=0.4",
+    "mypy>=1.9",
+    "bandit>=1.7",
+    "types-requests>=2.31",
+    "types-PyYAML>=6.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["streamshield*"]
+
+# ── Ruff (linting + formatting) ──────────────────────────────────────────────
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+ignore = ["E501"]  # line length handled by formatter
+
+# ── mypy (type checking) ─────────────────────────────────────────────────────
+[tool.mypy]
+python_version = "3.11"
+strict = false
+ignore_missing_imports = true  # confluent_kafka has no stubs
+
+# ── pytest ───────────────────────────────────────────────────────────────────
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "-v"

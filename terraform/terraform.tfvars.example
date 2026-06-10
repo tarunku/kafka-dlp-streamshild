@@ -1,0 +1,23 @@
+# Copy this file to terraform.tfvars and fill in your values
+# Command: cp terraform.tfvars.example terraform.tfvars
+
+# The GCP project ID of your test project
+# Find it in GCP Console top bar, or run: gcloud projects list
+project_id = "your-test-project-id"
+
+# Region — keep as us-central1 to match all setup guides
+region = "us-central1"
+
+# Zone for the GCE VM
+zone = "us-central1-a"
+
+# Your laptop's public IP in CIDR format
+# Find it by searching "what is my ip" in a browser, then add /32
+# Example: if your IP is 203.0.113.45, enter "203.0.113.45/32"
+laptop_ip_cidr = "YOUR_IP/32"
+
+# VM size — e2-medium (2 vCPU, 4 GB) is sufficient for POC
+vm_machine_type = "e2-medium"
+
+# Number of Kafka brokers — keep at 3 for replication factor 3
+kafka_broker_count = 3

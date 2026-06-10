@@ -1,0 +1,155 @@
+# StreamShield SDK — Full Configuration Reference
+# Usage: config = SDKConfig.from_yaml("/etc/streamshield/config.yaml")
+#
+# Two modes are shown below:
+#   OPTION A (default, commented in)  — Secret Manager resolves broker + registry URL at runtime
+#   OPTION B (local dev / laptop)     — provide broker + registry URL directly, skip Secret Manager
+#
+# Copy this file to /etc/streamshield/config.yaml and edit as needed.
+
+# ── GCP ────────────────────────────────────────────────────────────────────────
+gcp:
+  # GCP project that owns Kafka, DLP, KMS, and Secret Manager — REQUIRED
+  project_id: "vetsource-496203"
+
+  # Location for Cloud DLP API calls ("global" works across all regions)
+  dlp_location: "global"
+
+  # ── OPTION A: Secret Manager (VM / production) ──────────────────────────────
+  # Broker address and schema registry URL are fetched from Secret Manager at startup.
+  # Requires roles/secretmanager.secretAccessor on the service account.
+  use_secret_manager: true
+  bootstrap_servers_secret: "kafka-bootstrap-servers"
+  schema_registry_url_secret: "schema-registry-url"
+
+  # ── OPTION B: Direct values (laptop / local dev) ────────────────────────────
+  # Uncomment these two lines and set use_secret_manager: false to skip Secret Manager.
+  # use_secret_manager: false
+  # bootstrap_servers: "bootstrap.poc-kafka-cluster.us-central1.managedkafka.vetsource-496203.cloud.goog:9092"
+  # schema_registry_url: "https://managedkafka.googleapis.com/v1/projects/vetsource-496203/locations/us-central1/schemaRegistries/pocschemaregistry"
+
+  # Refresh the ADC Bearer token this many seconds before it expires.
+  # Prevents SASL auth failures in long-running producers/consumers.
+  token_refresh_buffer_s: 300
+
+  # Re-fetch Secret Manager secrets on this interval (seconds).
+  # Uncomment to enable live secret rotation without restarting the process.
+  # secrets_refresh_interval_s: 3600
+
+# ── Producer ───────────────────────────────────────────────────────────────────
+producer:
+  # Idempotent producer prevents duplicate messages on broker retry.
+  # Requires acks=all and is always recommended for production.
+  enable_idempotence: true
+
+  # Wait for all in-sync replicas to acknowledge before confirming delivery.
+  # "all" / "-1" = strongest durability. "1" = leader only. "0" = fire-and-forget.
+  acks: "all"
+
+  # Broker-level retries before raising DeliveryFailedError
+  retries: 5
+  retry_backoff_ms: 500
+
+  # Wait up to this many ms to accumulate a batch before sending (higher = more batching)
+  linger_ms: 5
+
+  # Maximum bytes per Kafka message batch (64 KB default)
+  batch_size_bytes: 65536
+
+  # Compression codec. "snappy" balances speed and ratio well for JSON-like Avro payloads.
+  # Options: "none", "gzip", "snappy", "lz4", "zstd"
+  compression_type: "snappy"
+
+  # Per-request and total delivery timeouts
+  request_timeout_ms: 30000    # 30 seconds per produce request
+  delivery_timeout_ms: 120000  # 2 minutes total (includes retries)
+
+  # Verify the topic exists before the first send() call.
+  # Catches misconfigured topic names at startup rather than at first message.
+  validate_topic_on_send: true
+
+# ── Consumer ───────────────────────────────────────────────────────────────────
+# NOTE: enable.auto.commit is intentionally not exposed here.
+# StreamShield always sets it to false and commits only after the handler returns.
+consumer:
+  # Where to start reading when no committed offset exists for this group.
+  # "earliest" = replay from the beginning. "latest" = only new messages.
+  auto_offset_reset: "earliest"
+
+  # Maximum records returned in a single poll() call
+  max_poll_records: 500
+
+  # Consumer is declared dead if no heartbeat is received within this window
+  session_timeout_ms: 30000
+
+  # How often to send a heartbeat to the broker (must be < session_timeout_ms / 3)
+  heartbeat_interval_ms: 3000
+
+  # Maximum time between poll() calls before the broker triggers a rebalance (5 min)
+  max_poll_interval_ms: 300000
+
+  # process() loop exits after this many seconds with no messages received
+  idle_timeout_s: 30.0
+
+# ── Dead Letter Queue ──────────────────────────────────────────────────────────
+dlq:
+  # Route failed messages to a DLQ topic instead of crashing the consumer
+  enabled: true
+
+  # DLQ topic name = source topic name + this suffix
+  # e.g. "prescription-events" → "prescription-events.dlq"
+  topic_suffix: ".dlq"
+
+  # Attempts to publish to the DLQ before raising DLQPublishError
+  max_retries: 3
+
+  # true  = raise DLQPublishError if the DLQ itself is unavailable (recommended)
+  # false = log an error and move on (accept potential message loss as last resort)
+  raise_on_dlq_failure: true
+
+  # Automatically create the DLQ topic on the first routing call if it doesn't exist
+  auto_create_topic: true
+
+# ── DLP Tokenization ───────────────────────────────────────────────────────────
+dlp:
+  # Set to false to disable DLP tokenization entirely (useful for testing plain messages)
+  enabled: true
+
+  # Records per DLP deidentify/reidentify API call.
+  # The POC called DLP once per record. At batch_size=100 this is ~100x faster for bulk loads.
+  # DLP supports up to 5000 rows per table request; 100 is a safe conservative default.
+  batch_size: 100
+
+  # Field used as the CryptoDeterministicConfig context value.
+  # Ties a token to a specific record so the same plaintext in different records
+  # produces different tokens. The schema annotation "token.context-field" overrides this.
+  context_field: "order_id"
+
+  # Retries for transient DLP errors (UNAVAILABLE, RESOURCE_EXHAUSTED)
+  max_retries: 3
+  retry_backoff_ms: 500
+
+# ── Schema Registry ────────────────────────────────────────────────────────────
+schema:
+  # Wire format for Kafka message values. Only AVRO is supported in v1.0.
+  serialization_format: "AVRO"
+
+  # false (default) = raise SchemaNotFoundError if no schema is registered for a topic.
+  # true  = register the schema on the first send() call automatically (dev only).
+  auto_register: false
+
+  # Default compatibility mode applied when SchemaAdmin.register() is called.
+  # BACKWARD  = new schema can read data written by the previous schema (add optional fields only).
+  # FORWARD   = previous schema can read data written by the new schema.
+  # FULL      = both BACKWARD and FORWARD.
+  # NONE      = no checks (use with caution).
+  default_compatibility_mode: "BACKWARD"
+
+  # How the Schema Registry subject name is derived from a Kafka topic name.
+  # TopicNameStrategy       → "{topic}-value"                          (default)
+  # RecordNameStrategy      → "{avro_namespace}.{avro_record_name}"
+  # TopicRecordNameStrategy → "{topic}-{avro_namespace}.{avro_record_name}"
+  subject_name_strategy: "TopicNameStrategy"
+
+  # Number of schemas to keep in the in-process cache (keyed by schema_id)
+  cache_capacity: 1000

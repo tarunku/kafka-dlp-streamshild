@@ -1,0 +1,245 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 900" width="1280" height="900" font-family="system-ui,-apple-system,'Segoe UI',Arial,sans-serif">
+
+  <!-- ═══ DEFS ═══ -->
+  <defs>
+    <filter id="sh" x="-5%" y="-5%" width="115%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3.5" flood-color="#00000016"/>
+    </filter>
+    <marker id="aP" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#7c3aed"/></marker>
+    <marker id="aB" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#1d4ed8"/></marker>
+    <marker id="aA" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#d97706"/></marker>
+    <marker id="aG" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#15803d"/></marker>
+    <marker id="aC" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#0891b2"/></marker>
+  </defs>
+
+  <!-- ═══ BACKGROUND ═══ -->
+  <rect width="1280" height="900" fill="#f8fafc"/>
+
+  <!-- ═══ TITLE ═══ -->
+  <text x="635" y="35" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">Controlled De-tokenization and Restricted Access Workflow</text>
+  <text x="635" y="54" text-anchor="middle" font-size="11.5" fill="#64748b">VetSource · Workstream 2 · Compliance &amp; Audit Scenario · Approval-Gated</text>
+
+  <!-- ═══════════════════════════════════════════
+       ZONE 1 — GOVERNANCE    y=64 to y=162
+  ═══════════════════════════════════════════ -->
+  <rect x="20" y="64" width="912" height="98" rx="10" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="1.5"/>
+  <text x="34" y="79" font-size="8.5" font-weight="700" fill="#6d28d9" letter-spacing="1.5">GOVERNANCE / APPROVAL</text>
+
+  <!-- Step 1 box -->
+  <rect x="345" y="76" width="574" height="76" rx="10" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8" filter="url(#sh)"/>
+  <!-- Document icon -->
+  <rect x="361" y="89" width="38" height="44" rx="7" fill="#6d28d9"/>
+  <rect x="368" y="96"  width="24" height="3" rx="1.5" fill="#ffffff"/>
+  <rect x="368" y="102" width="18" height="3" rx="1.5" fill="#c4b5fd"/>
+  <rect x="368" y="108" width="21" height="3" rx="1.5" fill="#c4b5fd"/>
+  <rect x="368" y="114" width="15" height="3" rx="1.5" fill="#c4b5fd"/>
+  <!-- Approval check badge -->
+  <circle cx="392" cy="128" r="8" fill="#16a34a"/>
+  <path d="M387 128 L391 132 L398 123" stroke="#ffffff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Text -->
+  <text x="630" y="100" text-anchor="middle" font-size="14" font-weight="700" fill="#1e1b4b">Authorized Request</text>
+  <text x="630" y="118" text-anchor="middle" font-size="11" fill="#6b7280">Approval workflow · data steward sign-off</text>
+  <rect x="508" y="128" width="252" height="16" rx="5" fill="#ede9fe"/>
+  <text x="634" y="140" text-anchor="middle" font-size="10" fill="#5b21b6" font-weight="600">All steps logged · Cloud Audit Logs &amp; Snowflake Access History</text>
+  <!-- Step badge -->
+  <circle cx="356" cy="114" r="18" fill="#7c3aed" filter="url(#sh)"/>
+  <text x="356" y="119" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">1</text>
+
+  <!-- Arrow 1 → 2 -->
+  <line x1="632" y1="152" x2="632" y2="190" stroke="#7c3aed" stroke-width="2" marker-end="url(#aP)"/>
+
+  <!-- ═══════════════════════════════════════════
+       ZONE 2 — SECURE EXPORT    y=170 to y=292
+  ═══════════════════════════════════════════ -->
+  <rect x="20" y="170" width="912" height="124" rx="10" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.5"/>
+  <text x="34" y="185" font-size="8.5" font-weight="700" fill="#1d4ed8" letter-spacing="1.5">SECURE EXPORT</text>
+
+  <!-- Step 2 box -->
+  <rect x="345" y="192" width="574" height="92" rx="10" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.8" filter="url(#sh)"/>
+  <!-- Snowflake icon -->
+  <rect x="361" y="206" width="40" height="40" rx="7" fill="#29b5e8"/>
+  <line x1="381" y1="210" x2="381" y2="242" stroke="#ffffff" stroke-width="2.5"/>
+  <line x1="365" y1="226" x2="397" y2="226" stroke="#ffffff" stroke-width="2.5"/>
+  <line x1="368" y1="213" x2="394" y2="239" stroke="#ffffff" stroke-width="2"/>
+  <line x1="394" y1="213" x2="368" y2="239" stroke="#ffffff" stroke-width="2"/>
+  <!-- Export icon -->
+  <rect x="410" y="206" width="26" height="40" rx="7" fill="#1e3a8a"/>
+  <path d="M417 215 L423 208 L429 215" stroke="#93c5fd" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <line x1="423" y1="208" x2="423" y2="230" stroke="#93c5fd" stroke-width="2"/>
+  <line x1="413" y1="236" x2="433" y2="236" stroke="#93c5fd" stroke-width="1.5"/>
+  <!-- Text -->
+  <text x="630" y="220" text-anchor="middle" font-size="13" font-weight="700" fill="#1e3a8a">Snowflake COPY INTO GCS</text>
+  <text x="630" y="238" text-anchor="middle" font-size="11" fill="#374151">Exports tokenized rows as Parquet → designated secure GCS path</text>
+  <rect x="456" y="250" width="350" height="16" rx="5" fill="#fef9c3"/>
+  <text x="631" y="262" text-anchor="middle" font-size="10" fill="#92400e" font-weight="600">Tokenized data only at this stage — no raw PII in transit</text>
+  <rect x="456" y="270" width="350" height="14" rx="4" fill="#dbeafe"/>
+  <text x="631" y="281" text-anchor="middle" font-size="10" fill="#1d4ed8">Scale warehouse temporarily for large exports</text>
+  <!-- Step badge -->
+  <circle cx="356" cy="238" r="18" fill="#1d4ed8" filter="url(#sh)"/>
+  <text x="356" y="243" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">2</text>
+
+  <!-- Arrow 2 → 3 -->
+  <line x1="632" y1="284" x2="632" y2="318" stroke="#d97706" stroke-width="2" marker-end="url(#aA)"/>
+
+  <!-- ═══════════════════════════════════════════
+       ZONE 3 — RE-IDENTIFICATION    y=302 to y=448
+  ═══════════════════════════════════════════ -->
+  <rect x="20" y="302" width="912" height="148" rx="10" fill="#fff7ed" stroke="#fbbf24" stroke-width="2"/>
+  <text x="34" y="317" font-size="8.5" font-weight="700" fill="#b45309" letter-spacing="1.5">RE-IDENTIFICATION / SECURITY</text>
+  <!-- Warning badge -->
+  <rect x="770" y="305" width="152" height="18" rx="6" fill="#fef3c7" stroke="#fbbf24" stroke-width="1.2"/>
+  <path d="M782 317 L787 309 L792 317Z" fill="#d97706"/>
+  <line x1="787" y1="312" x2="787" y2="315" stroke="#ffffff" stroke-width="1.5"/>
+  <circle cx="787" cy="317" r="1" fill="#ffffff"/>
+  <text x="828" y="318" text-anchor="middle" font-size="9" fill="#92400e" font-weight="700">SENSITIVE ZONE</text>
+
+  <!-- Step 3 box -->
+  <rect x="345" y="324" width="574" height="116" rx="10" fill="#ffffff" stroke="#d97706" stroke-width="2.2" filter="url(#sh)"/>
+  <!-- Shield icon -->
+  <rect x="361" y="338" width="40" height="48" rx="7" fill="#92400e"/>
+  <path d="M381 342 C373 345 368 352 368 360 L368 368 C368 376 374 382 381 384 C388 382 394 376 394 368 L394 360 C394 352 389 345 381 342Z" fill="#fde68a"/>
+  <path d="M376 364 L380 368 L387 360" stroke="#92400e" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- KMS key icon -->
+  <rect x="410" y="338" width="28" height="48" rx="7" fill="#78350f"/>
+  <circle cx="424" cy="354" r="7" fill="none" stroke="#fde68a" stroke-width="2.2"/>
+  <rect x="420" y="360" width="8" height="18" rx="2" fill="#fde68a"/>
+  <rect x="423" y="367" width="3" height="4" rx="1" fill="#78350f"/>
+  <rect x="423" y="373" width="3" height="3" rx="1" fill="#78350f"/>
+  <!-- Text -->
+  <text x="630" y="350" text-anchor="middle" font-size="13" font-weight="700" fill="#78350f">Cloud DLP Re-identification Job</text>
+  <text x="630" y="368" text-anchor="middle" font-size="11" fill="#374151">GCS → GCS processing  ·  reidentifyContent API execution</text>
+  <text x="630" y="384" text-anchor="middle" font-size="11" fill="#374151">Key retrieved from Cloud KMS — job-scoped access only</text>
+  <rect x="438" y="396" width="390" height="18" rx="5" fill="#fef3c7" stroke="#fbbf24" stroke-width="1"/>
+  <text x="633" y="409" text-anchor="middle" font-size="10" fill="#92400e" font-weight="600">Clear-text PII created here — written only to isolated GCS output path</text>
+  <rect x="438" y="418" width="390" height="18" rx="5" fill="#fee2e2" stroke="#fca5a5" stroke-width="1.2"/>
+  <text x="633" y="431" text-anchor="middle" font-size="10" fill="#991b1b" font-weight="700">Sensitive clear-text zone — strictly controlled access, audit-logged</text>
+  <!-- Step badge -->
+  <circle cx="356" cy="382" r="18" fill="#d97706" filter="url(#sh)"/>
+  <text x="356" y="387" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">3</text>
+
+  <!-- Arrow 3 → 4 -->
+  <line x1="632" y1="440" x2="632" y2="468" stroke="#15803d" stroke-width="2" marker-end="url(#aG)"/>
+
+  <!-- ═══════════════════════════════════════════
+       ZONE 4 — RESTRICTED ANALYTICS    y=456 to y=888
+  ═══════════════════════════════════════════ -->
+  <rect x="20" y="456" width="912" height="434" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+  <text x="34" y="471" font-size="8.5" font-weight="700" fill="#15803d" letter-spacing="1.5">RESTRICTED ANALYTICS</text>
+
+  <!-- Step 4: Secure GCS Output -->
+  <rect x="345" y="478" width="574" height="72" rx="10" fill="#ffffff" stroke="#15803d" stroke-width="1.8" filter="url(#sh)"/>
+  <!-- Cloud + lock icon -->
+  <rect x="361" y="490" width="40" height="38" rx="7" fill="#14532d"/>
+  <path d="M368 510 Q372 502 378 506 Q380 498 386 500 Q392 494 394 502 Q398 500 398 506 Q402 508 400 512 L368 512Z" fill="#86efac"/>
+  <rect x="380" y="508" width="10" height="8" rx="2" fill="#fbbf24"/>
+  <path d="M381 508 L381 505 Q385 502 389 505 L389 508" stroke="#fbbf24" stroke-width="1.5" fill="none"/>
+  <!-- Text -->
+  <text x="630" y="502" text-anchor="middle" font-size="13" font-weight="700" fill="#14532d">Secure GCS Output Path</text>
+  <text x="630" y="520" text-anchor="middle" font-size="11" fill="#374151">De-tokenized files written to isolated, access-controlled GCS location</text>
+  <rect x="478" y="530" width="308" height="14" rx="4" fill="#dcfce7"/>
+  <text x="632" y="541" text-anchor="middle" font-size="10" fill="#15803d" font-weight="600">Authorized principals only · separate bucket prefix</text>
+  <circle cx="356" cy="514" r="18" fill="#15803d" filter="url(#sh)"/>
+  <text x="356" y="519" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">4</text>
+
+  <!-- Arrow 4 → 5 -->
+  <line x1="632" y1="550" x2="632" y2="568" stroke="#0891b2" stroke-width="2" marker-end="url(#aC)"/>
+
+  <!-- Step 5: Snowpipe / COPY INTO -->
+  <rect x="345" y="572" width="574" height="72" rx="10" fill="#ffffff" stroke="#0891b2" stroke-width="1.8" filter="url(#sh)"/>
+  <!-- Pipe icon -->
+  <rect x="361" y="584" width="40" height="38" rx="7" fill="#0c4a6e"/>
+  <polygon points="368,589 394,589 390,601 372,601" fill="#7dd3fc"/>
+  <rect x="377" y="601" width="6" height="13" rx="2" fill="#7dd3fc"/>
+  <!-- Text -->
+  <text x="630" y="600" text-anchor="middle" font-size="13" font-weight="700" fill="#0c4a6e">Snowpipe or COPY INTO</text>
+  <text x="630" y="618" text-anchor="middle" font-size="11" fill="#374151">Loads de-tokenized data into restricted Snowflake table</text>
+  <rect x="468" y="628" width="328" height="14" rx="4" fill="#e0f2fe"/>
+  <text x="632" y="639" text-anchor="middle" font-size="10" fill="#0369a1" font-weight="600">Target schema: COMPLIANCE_SCHEMA · restricted DATAFLOW_ROLE</text>
+  <circle cx="356" cy="608" r="18" fill="#0891b2" filter="url(#sh)"/>
+  <text x="356" y="613" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">5</text>
+
+  <!-- Arrow 5 → 6 -->
+  <line x1="632" y1="644" x2="632" y2="660" stroke="#0891b2" stroke-width="2" marker-end="url(#aC)"/>
+
+  <!-- Step 6: Restricted Snowflake Table -->
+  <rect x="345" y="664" width="574" height="110" rx="10" fill="#ffffff" stroke="#29b5e8" stroke-width="2.5" filter="url(#sh)"/>
+  <!-- Snowflake icon (larger) -->
+  <rect x="361" y="678" width="44" height="44" rx="8" fill="#29b5e8"/>
+  <line x1="383" y1="682" x2="383" y2="718" stroke="#ffffff" stroke-width="3"/>
+  <line x1="365" y1="700" x2="401" y2="700" stroke="#ffffff" stroke-width="3"/>
+  <line x1="368" y1="685" x2="398" y2="715" stroke="#ffffff" stroke-width="2.5"/>
+  <line x1="398" y1="685" x2="368" y2="715" stroke="#ffffff" stroke-width="2.5"/>
+  <!-- Text -->
+  <text x="630" y="692" text-anchor="middle" font-size="11.5" font-weight="700" fill="#475569">Snowflake · COMPLIANCE_SCHEMA</text>
+  <text x="630" y="712" text-anchor="middle" font-size="14" font-weight="700" fill="#0369a1">DETOKENIZED_EXPORT_YYYYMMDD</text>
+  <!-- Restricted badge -->
+  <rect x="434" y="724" width="396" height="20" rx="6" fill="#fee2e2" stroke="#fca5a5" stroke-width="1.2"/>
+  <rect x="438" y="728" width="10" height="9" rx="2" fill="#991b1b"/>
+  <path d="M439 728 L439 725 Q443 721 447 725 L447 728" stroke="#991b1b" stroke-width="1.5" fill="none"/>
+  <text x="642" y="738" text-anchor="middle" font-size="10" fill="#991b1b" font-weight="700">Restricted Access Only — authorized compliance role required</text>
+  <!-- Ephemeral badge -->
+  <rect x="434" y="748" width="396" height="18" rx="5" fill="#fef9c3"/>
+  <text x="632" y="761" text-anchor="middle" font-size="10" fill="#78350f" font-weight="600">Ephemeral — auto-dropped after 24–48 hours via Snowflake Task</text>
+  <circle cx="356" cy="719" r="18" fill="#0891b2" filter="url(#sh)"/>
+  <text x="356" y="724" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">6</text>
+
+  <!-- Arrow 6 → 7 -->
+  <line x1="632" y1="774" x2="632" y2="790" stroke="#0891b2" stroke-width="2" marker-end="url(#aC)"/>
+
+  <!-- Step 7: Authorized SQL Access -->
+  <rect x="345" y="794" width="574" height="88" rx="10" fill="#ffffff" stroke="#0891b2" stroke-width="1.8" filter="url(#sh)"/>
+  <!-- Console/terminal icon -->
+  <rect x="361" y="806" width="42" height="38" rx="7" fill="#0c4a6e"/>
+  <rect x="366" y="810" width="32" height="24" rx="2" fill="#7dd3fc"/>
+  <rect x="368" y="812" width="28" height="20" rx="1" fill="#0c4a6e"/>
+  <rect x="370" y="815" width="16" height="2" rx="1" fill="#38bdf8"/>
+  <rect x="370" y="819" width="12" height="2" rx="1" fill="#7dd3fc"/>
+  <rect x="370" y="823" width="14" height="2" rx="1" fill="#38bdf8"/>
+  <rect x="375" y="834" width="10" height="4" rx="1" fill="#7dd3fc"/>
+  <rect x="370" y="838" width="20" height="2" rx="1" fill="#7dd3fc"/>
+  <!-- Text -->
+  <text x="630" y="820" text-anchor="middle" font-size="13" font-weight="700" fill="#0c4a6e">Authorized SQL Access</text>
+  <text x="630" y="838" text-anchor="middle" font-size="11" fill="#374151">Pure SQL · Full Snowflake performance · Authorized compliance role only</text>
+  <!-- Lifecycle note -->
+  <rect x="398" y="850" width="470" height="22" rx="6" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+  <!-- Clock icon -->
+  <circle cx="416" cy="861" r="6" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="416" y1="856" x2="416" y2="861" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="416" y1="861" x2="420" y2="861" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="640" y="866" text-anchor="middle" font-size="10" fill="#475569" font-weight="600">Table auto-dropped after 24–48 hours via Snowflake Task — minimize de-tokenized exposure window</text>
+  <circle cx="356" cy="838" r="18" fill="#0891b2" filter="url(#sh)"/>
+  <text x="356" y="843" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">7</text>
+
+  <!-- ═══════════════════════════════════════════
+       RIGHT-SIDE CALLOUT ANNOTATIONS
+  ═══════════════════════════════════════════ -->
+
+  <!-- Callout A — Tokenized data before re-id (zones 1–2) -->
+  <rect x="952" y="96" width="304" height="82" rx="8" fill="#fffbeb" stroke="#fbbf24" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="952" y="96" width="6" height="82" rx="3" fill="#fbbf24"/>
+  <text x="970" y="114" font-size="10" font-weight="700" fill="#92400e">Tokenized data before re-identification</text>
+  <text x="970" y="130" font-size="10" fill="#374151">Steps 1–3 operate exclusively</text>
+  <text x="970" y="146" font-size="10" fill="#374151">on deterministic tokens.</text>
+  <text x="970" y="162" font-size="10" fill="#374151">No raw PII exposed at any stage.</text>
+  <line x1="932" y1="137" x2="953" y2="137" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- Callout B — Sensitive clear-text zone (zone 3) -->
+  <rect x="952" y="334" width="304" height="82" rx="8" fill="#fef2f2" stroke="#f87171" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="952" y="334" width="6" height="82" rx="3" fill="#f87171"/>
+  <text x="970" y="352" font-size="10" font-weight="700" fill="#991b1b">Sensitive clear-text zone</text>
+  <text x="970" y="368" font-size="10" fill="#374151">Plain-text PII exists ONLY within</text>
+  <text x="970" y="384" font-size="10" fill="#374151">the Cloud DLP job scope and</text>
+  <text x="970" y="400" font-size="10" fill="#374151">the isolated GCS output bucket.</text>
+  <line x1="932" y1="382" x2="953" y2="375" stroke="#f87171" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- Callout C — Temporary controlled access (steps 6–7) -->
+  <rect x="952" y="672" width="304" height="100" rx="8" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="952" y="672" width="6" height="100" rx="3" fill="#86efac"/>
+  <text x="970" y="690" font-size="10" font-weight="700" fill="#15803d">Temporary controlled access</text>
+  <text x="970" y="706" font-size="10" fill="#374151">Table is ephemeral by design.</text>
+  <text x="970" y="722" font-size="10" fill="#374151">Created for a specific approved use</text>
+  <text x="970" y="738" font-size="10" fill="#374151">case only — auto-expires to minimize</text>
+  <text x="970" y="754" font-size="10" fill="#374151">de-tokenized data exposure window.</text>
+  <line x1="932" y1="719" x2="953" y2="719" stroke="#86efac" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+</svg>

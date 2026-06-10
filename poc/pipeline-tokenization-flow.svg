@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" font-family="system-ui, -apple-system, 'Segoe UI', Arial, sans-serif">
+
+  <!-- Background -->
+  <rect width="1280" height="720" fill="#f8fafc"/>
+
+  <!-- Title -->
+  <text x="640" y="38" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">PII Tokenization and Kafka → Snowflake Ingestion Flow</text>
+  <text x="640" y="58" text-anchor="middle" font-size="12" fill="#64748b">VetSource · Workstream 2 · Data Security &amp; Privacy</text>
+
+  <!-- ═══════════════════════════════════════════════════════
+       LANE BACKGROUNDS
+  ════════════════════════════════════════════════════════ -->
+
+  <!-- Security lane -->
+  <rect x="20" y="72" width="360" height="576" rx="12" fill="#fdf4ff" stroke="#e9d5ff" stroke-width="1.5"/>
+  <text x="200" y="94" text-anchor="middle" font-size="10" font-weight="700" fill="#7c3aed" letter-spacing="1">SECURITY / TOKENIZATION</text>
+
+  <!-- Streaming lane -->
+  <rect x="400" y="72" width="300" height="576" rx="12" fill="#f0f9ff" stroke="#bae6fd" stroke-width="1.5"/>
+  <text x="550" y="94" text-anchor="middle" font-size="10" font-weight="700" fill="#0369a1" letter-spacing="1">STREAMING</text>
+
+  <!-- Storage / Ingestion lane -->
+  <rect x="720" y="72" width="260" height="576" rx="12" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="1.5"/>
+  <text x="850" y="94" text-anchor="middle" font-size="10" font-weight="700" fill="#15803d" letter-spacing="1">STORAGE &amp; INGESTION</text>
+
+  <!-- Analytics lane -->
+  <rect x="1000" y="72" width="260" height="576" rx="12" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.5"/>
+  <text x="1130" y="94" text-anchor="middle" font-size="10" font-weight="700" fill="#1d4ed8" letter-spacing="1">ANALYTICS WAREHOUSE</text>
+
+  <!-- ═══════════════════════════════════════════════════════
+       COMPONENT 1 — producer.py
+  ════════════════════════════════════════════════════════ -->
+  <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+    <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#00000018"/>
+  </filter>
+
+  <rect x="60" y="110" width="280" height="76" rx="10" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8" filter="url(#shadow)"/>
+  <!-- Code icon -->
+  <rect x="76" y="126" width="36" height="36" rx="6" fill="#7c3aed"/>
+  <text x="94" y="150" text-anchor="middle" font-size="16" fill="#ffffff" font-weight="700">&lt;/&gt;</text>
+  <text x="200" y="146" text-anchor="middle" font-size="14" font-weight="700" fill="#1e1b4b">producer.py</text>
+  <text x="200" y="163" text-anchor="middle" font-size="11" fill="#6b7280">Python Producer Service</text>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ARROW 1 — producer → DLP block
+  ════════════════════════════════════════════════════════ -->
+  <line x1="200" y1="186" x2="200" y2="222" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrowPurple)"/>
+  <rect x="100" y="192" width="200" height="22" rx="4" fill="#ede9fe"/>
+  <text x="200" y="207" text-anchor="middle" font-size="10" fill="#5b21b6" font-weight="600">1. Calls Cloud DLP reidentifyContent</text>
+
+  <!-- ═══════════════════════════════════════════════════════
+       COMPONENT 2 — AES-SIV Tokenization block
+  ════════════════════════════════════════════════════════ -->
+  <rect x="44" y="228" width="312" height="112" rx="10" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8" filter="url(#shadow)"/>
+  <!-- Shield icon -->
+  <rect x="60" y="244" width="42" height="42" rx="8" fill="#6d28d9"/>
+  <path d="M81 250 L81 250 C74 252 68 258 68 265 L68 272 C68 278 74 284 81 286 C88 284 94 278 94 272 L94 265 C94 258 88 252 81 250Z" fill="#ffffff" opacity="0.9"/>
+  <text x="81" y="271" text-anchor="middle" font-size="11" fill="#6d28d9" font-weight="700">✓</text>
+  <!-- KMS key icon -->
+  <rect x="294" y="244" width="42" height="42" rx="8" fill="#6d28d9"/>
+  <circle cx="315" cy="258" r="6" fill="none" stroke="#ffffff" stroke-width="2"/>
+  <rect x="310" y="263" width="10" height="14" rx="2" fill="#ffffff"/>
+  <rect x="313" y="270" width="4" height="4" rx="1" fill="#6d28d9"/>
+  <text x="220" y="258" text-anchor="middle" font-size="13" font-weight="700" fill="#1e1b4b">AES-SIV Tokenization</text>
+  <text x="200" y="277" text-anchor="middle" font-size="11" fill="#6b7280">Key stored in Cloud KMS</text>
+  <!-- Badge -->
+  <rect x="98" y="288" width="204" height="20" rx="6" fill="#f5f3ff"/>
+  <text x="200" y="302" text-anchor="middle" font-size="10" fill="#5b21b6" font-weight="600">PII fields → deterministic tokens</text>
+  <text x="200" y="322" text-anchor="middle" font-size="10" fill="#374151">customer_id · customer_name · email · phone · shipping_address</text>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ARROW 2 — DLP block → Kafka
+  ════════════════════════════════════════════════════════ -->
+  <!-- Vertical down then right into streaming lane -->
+  <polyline points="200,340 200,370 550,370 550,390" stroke="#0369a1" stroke-width="2" fill="none" marker-end="url(#arrowBlue)"/>
+  <rect x="248" y="348" width="256" height="22" rx="4" fill="#e0f2fe"/>
+  <text x="376" y="363" text-anchor="middle" font-size="10" fill="#0369a1" font-weight="600">2. Publishes tokenized OrderEvent</text>
+
+  <!-- ═══════════════════════════════════════════════════════
+       COMPONENT 3 — Kafka
+  ════════════════════════════════════════════════════════ -->
+  <rect x="424" y="390" width="252" height="96" rx="10" fill="#ffffff" stroke="#0369a1" stroke-width="1.8" filter="url(#shadow)"/>
+  <!-- Kafka icon (simplified stream lines) -->
+  <rect x="440" y="408" width="36" height="36" rx="6" fill="#0c4a6e"/>
+  <line x1="450" y1="415" x2="450" y2="437" stroke="#38bdf8" stroke-width="2"/>
+  <line x1="458" y1="412" x2="458" y2="440" stroke="#7dd3fc" stroke-width="2"/>
+  <line x1="466" y1="415" x2="466" y2="437" stroke="#38bdf8" stroke-width="2"/>
+  <text x="560" y="420" text-anchor="middle" font-size="14" font-weight="700" fill="#0c4a6e">Kafka</text>
+  <text x="560" y="438" text-anchor="middle" font-size="11" fill="#6b7280">raw-events topic</text>
+  <!-- Badge -->
+  <rect x="452" y="452" width="200" height="20" rx="6" fill="#fef9c3"/>
+  <text x="552" y="466" text-anchor="middle" font-size="10" fill="#92400e" font-weight="600">Raw PII never enters Kafka</text>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ARROW 3 — Kafka → Kafka Connect GCS Sink
+  ════════════════════════════════════════════════════════ -->
+  <line x1="676" y1="438" x2="730" y2="438" stroke="#15803d" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- ═══════════════════════════════════════════════════════
+       COMPONENT 4 — Kafka Connect GCS Sink
+  ════════════════════════════════════════════════════════ -->
+  <rect x="734" y="404" width="218" height="68" rx="10" fill="#ffffff" stroke="#15803d" stroke-width="1.8" filter="url(#shadow)"/>
+  <!-- Connect icon -->
+  <rect x="750" y="416" width="32" height="32" rx="6" fill="#14532d"/>
+  <circle cx="766" cy="432" r="6" fill="none" stroke="#86efac" stroke-width="2"/>
+  <line x1="760" y1="432" x2="754" y2="426" stroke="#86efac" stroke-width="2"/>
+  <line x1="772" y1="432" x2="778" y2="426" stroke="#86efac" stroke-width="2"/>
+  <text x="850" y="432" text-anchor="middle" font-size="12" font-weight="700" fill="#14532d">Kafka Connect</text>
+  <text x="850" y="450" text-anchor="middle" font-size="11" fill="#6b7280">GCS Sink Connector</text>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ARROW 4 — Kafka Connect → GCS
+  ════════════════════════════════════════════════════════ -->
+  <line x1="850" y1="472" x2="850" y2="514" stroke="#15803d" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- ═══════════════════════════════════════════════════════
+       COMPONENT 5 — GCS
+  ════════════════════════════════════════════════════════ -->
+  <rect x="734" y="518" width="218" height="72" rx="10" fill="#ffffff" stroke="#15803d" stroke-width="1.8" filter="url(#shadow)"/>
+  <!-- Cloud icon -->
+  <rect x="750" y="530" width="36" height="32" rx="6" fill="#14532d"/>
+  <path d="M757 550 Q762 542 768 546 Q770 538 776 540 Q782 534 784 542 Q788 540 788 546 Q792 548 790 552 L757 552Z" fill="#86efac"/>
+  <text x="850" y="548" text-anchor="middle" font-size="12" font-weight="700" fill="#14532d">Google Cloud Storage</text>
+  <text x="850" y="566" text-anchor="middle" font-size="10" fill="#6b7280">kafka-poc-gcs-landing</text>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ARROW 5 — GCS → Pub/Sub (right to analytics lane)
+  ════════════════════════════════════════════════════════ -->
+  <polyline points="952,554 986,554 986,438 1010,438" stroke="#1d4ed8" stroke-width="2" fill="none" marker-end="url(#arrowBlueDark)"/>
+  <rect x="956" y="480" width="134" height="22" rx="4" fill="#dbeafe"/>
+  <text x="1023" y="495" text-anchor="middle" font-size="10" fill="#1d4ed8" font-weight="600">OBJECT_FINALIZE</text>
+
+  <!-- ═══════════════════════════════════════════════════════
+       COMPONENT 6 — Pub/Sub Notification
+  ════════════════════════════════════════════════════════ -->
+  <rect x="1014" y="404" width="222" height="68" rx="10" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.8" filter="url(#shadow)"/>
+  <!-- Bell icon -->
+  <rect x="1030" y="416" width="32" height="32" rx="6" fill="#1e3a8a"/>
+  <path d="M1046 419 C1040 421 1037 427 1037 433 L1037 437 L1055 437 L1055 433 C1055 427 1052 421 1046 419Z" fill="#93c5fd"/>
+  <rect x="1043" y="437" width="6" height="5" rx="1" fill="#93c5fd"/>
+  <circle cx="1046" cy="444" r="3" fill="#93c5fd"/>
+  <text x="1130" y="432" text-anchor="middle" font-size="12" font-weight="700" fill="#1e3a8a">Pub/Sub Notification</text>
+  <text x="1130" y="450" text-anchor="middle" font-size="11" fill="#6b7280">kafka-poc-gcs-notify</text>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ARROW 6 — Pub/Sub → Snowpipe
+  ════════════════════════════════════════════════════════ -->
+  <line x1="1125" y1="472" x2="1125" y2="514" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arrowBlueDark)"/>
+
+  <!-- ═══════════════════════════════════════════════════════
+       COMPONENT 7 — Snowpipe AUTO_INGEST
+  ════════════════════════════════════════════════════════ -->
+  <rect x="1014" y="518" width="222" height="68" rx="10" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.8" filter="url(#shadow)"/>
+  <!-- Pipe/funnel icon -->
+  <rect x="1030" y="530" width="32" height="32" rx="6" fill="#1e3a8a"/>
+  <polygon points="1037,534 1055,534 1051,544 1041,544" fill="#93c5fd"/>
+  <rect x="1044" y="544" width="4" height="12" rx="1" fill="#93c5fd"/>
+  <text x="1130" y="546" text-anchor="middle" font-size="12" font-weight="700" fill="#1e3a8a">Snowpipe</text>
+  <text x="1130" y="564" text-anchor="middle" font-size="11" fill="#6b7280">AUTO_INGEST</text>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ARROW 7 — Snowpipe → Snowflake
+  ════════════════════════════════════════════════════════ -->
+  <line x1="1125" y1="586" x2="1125" y2="614" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arrowBlueDark)"/>
+
+  <!-- ═══════════════════════════════════════════════════════
+       COMPONENT 8 — Snowflake
+  ════════════════════════════════════════════════════════ -->
+  <rect x="1014" y="618" width="222" height="100" rx="10" fill="#ffffff" stroke="#29b5e8" stroke-width="2.5" filter="url(#shadow)"/>
+  <!-- Snowflake icon -->
+  <rect x="1030" y="630" width="40" height="40" rx="8" fill="#29b5e8"/>
+  <!-- Snowflake crystal -->
+  <line x1="1050" y1="634" x2="1050" y2="666" stroke="#ffffff" stroke-width="2.5"/>
+  <line x1="1034" y1="650" x2="1066" y2="650" stroke="#ffffff" stroke-width="2.5"/>
+  <line x1="1037" y1="637" x2="1063" y2="663" stroke="#ffffff" stroke-width="2.5"/>
+  <line x1="1063" y1="637" x2="1037" y2="663" stroke="#ffffff" stroke-width="2.5"/>
+  <text x="1130" y="648" text-anchor="middle" font-size="14" font-weight="700" fill="#0369a1">Snowflake</text>
+  <text x="1130" y="666" text-anchor="middle" font-size="9.5" fill="#374151">POC_DB.KAFKA_INGEST</text>
+  <text x="1130" y="682" text-anchor="middle" font-size="9.5" fill="#374151">ORDER_EVENTS</text>
+  <!-- Footer badge -->
+  <rect x="1022" y="690" width="206" height="20" rx="6" fill="#e0f2fe"/>
+  <text x="1125" y="704" text-anchor="middle" font-size="10" fill="#0369a1" font-weight="700">Tokenized columns only — always</text>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ARROW MARKERS
+  ════════════════════════════════════════════════════════ -->
+  <defs>
+    <marker id="arrowPurple" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#7c3aed"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#0369a1"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#15803d"/>
+    </marker>
+    <marker id="arrowBlueDark" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#1d4ed8"/>
+    </marker>
+  </defs>
+
+</svg>

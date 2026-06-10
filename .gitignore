@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+
+# Logs
+*.log
+__*.log
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Terraform — local state and real variable values
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/terraform.tfvars
