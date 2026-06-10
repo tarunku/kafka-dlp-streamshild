@@ -1,6 +1,6 @@
 # kafka-dlp-streamshield
 
-A production-grade Kafka data-pipeline with field-level DLP tokenization, Avro Schema Registry enforcement, and automated stream delivery to Snowflake — built entirely on GCP Managed Services.
+A production-grade Kafka data-pipeline with field-level DLP tokenization, Avro Schema Registry enforcement, and automated stream delivery to Snowflake — built entirely on GCP Managed Services
 
 ## What's in this repo
 

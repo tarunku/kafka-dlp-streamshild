@@ -43,6 +43,13 @@ resource "google_project_iam_member" "vm_producer_schema_registry_editor" {
   member  = "serviceAccount:${google_service_account.vm_producer_sa.email}"
 }
 
+# Call Cloud DLP API to tokenize / detokenize fields
+resource "google_project_iam_member" "vm_producer_dlp_user" {
+  project = var.project_id
+  role    = "roles/dlp.user"
+  member  = "serviceAccount:${google_service_account.vm_producer_sa.email}"
+}
+
 # ── dataflow-pipeline-sa roles ────────────────────────────────────────────────
 
 # Allows Dataflow to provision and manage worker VMs

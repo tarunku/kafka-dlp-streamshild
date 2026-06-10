@@ -33,8 +33,7 @@ resource "google_managed_kafka_cluster" "poc_cluster" {
   ]
 }
 
-# ── Kafka Topic ───────────────────────────────────────────────────────────────
-
+# Sink connector topic (GCS Sink reads from here)
 resource "google_managed_kafka_topic" "raw_events" {
   provider           = google-beta
   topic_id           = "raw-events"
@@ -46,6 +45,24 @@ resource "google_managed_kafka_topic" "raw_events" {
 
   configs = {
     "retention.ms"   = "604800000"  # 7 days in milliseconds
+    "cleanup.policy" = "delete"
+  }
+}
+
+# ── Kafka Topics ──────────────────────────────────────────────────────────────
+
+# Primary topic — StreamShield examples write/read here
+resource "google_managed_kafka_topic" "prescription_events" {
+  provider           = google-beta
+  topic_id           = "prescription-events"
+  cluster            = google_managed_kafka_cluster.poc_cluster.cluster_id
+  location           = var.region
+  project            = var.project_id
+  partition_count    = 3
+  replication_factor = 3
+
+  configs = {
+    "retention.ms"   = "604800000"  # 7 days
     "cleanup.policy" = "delete"
   }
 }

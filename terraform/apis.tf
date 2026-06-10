@@ -14,6 +14,7 @@ resource "google_project_service" "apis" {
     "storage.googleapis.com",           # Cloud Storage
     "iam.googleapis.com",               # IAM service accounts
     "iap.googleapis.com",               # Cloud IAP for SSH tunneling
+    "cloudkms.googleapis.com",          # Cloud KMS — wraps/unwraps DLP DEKs
   ])
 
   project            = var.project_id

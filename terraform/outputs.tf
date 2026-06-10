@@ -41,6 +41,21 @@ output "poc_dev_vm_zone" {
   value       = google_compute_instance.poc_dev_vm.zone
 }
 
+output "kms_pii_key_name" {
+  description = "Full resource name of the PII KMS key — auto-stored in dlp-kms-pii-key-name secret"
+  value       = google_kms_crypto_key.pii_dek_kek.id
+}
+
+output "kms_pci_key_name" {
+  description = "Full resource name of the PCI KMS key — auto-stored in dlp-kms-pci-key-name secret"
+  value       = google_kms_crypto_key.pci_dek_kek.id
+}
+
+output "schema_registry_url" {
+  description = "Schema Registry URL — copy this into the schema-registry-url secret"
+  value       = "https://managedkafka.googleapis.com/v1/projects/${var.project_id}/locations/${var.region}/schemaRegistries/poc-schema-registry"
+}
+
 output "next_steps" {
   description = "Manual steps required after terraform apply"
   value       = <<-EOT
@@ -48,19 +63,32 @@ output "next_steps" {
     ── Next steps after apply ────────────────────────────────────────
     1. Copy the kafka_bootstrap_address output into Secret Manager:
          gcloud secrets versions add kafka-bootstrap-servers \
-           --data-file=- --project=${var.project_id} <<< "<bootstrap_address>"
+           --data-file=- --project=${var.project_id} \
+           <<< "bootstrap.poc-kafka-cluster.${var.region}.managedkafka.${var.project_id}.cloud.goog:9092"
 
-    2. Copy the Schema Registry URL into Secret Manager:
+    2. Copy the schema_registry_url output into Secret Manager:
          gcloud secrets versions add schema-registry-url \
-           --data-file=- --project=${var.project_id} <<< "<sr_url>"
+           --data-file=- --project=${var.project_id} \
+           <<< "https://managedkafka.googleapis.com/v1/projects/${var.project_id}/locations/${var.region}/schemaRegistries/poc-schema-registry"
 
-    3. SSH into the VM and set up Python:
+       NOTE: dlp-kms-pii-key-name and dlp-kms-pci-key-name are auto-populated
+       by Terraform — no manual action needed for those two secrets.
+
+    3. SSH into the VM and run the one-time crypto setup:
          gcloud compute ssh poc-dev-vm \
            --project=${var.project_id} \
-           --zone=us-central1-a \
+           --zone=${var.zone} \
            --tunnel-through-iap
+         cd kafka-poc/streamshield && source venv/bin/activate
+         python3 examples/generate_wrapped_dek.py   # wraps DEKs into Secret Manager
+         python3 examples/register_schema.py         # embeds DEKs in Avro schema
 
-    4. Complete Snowflake setup (Step 10) and update remaining secrets.
+    4. Run the examples:
+         python3 examples/prescription_producer.py
+         python3 examples/tokenized_consumer.py
+         python3 examples/detokenized_consumer.py
+
+    5. Complete Snowflake setup (Step 10) and update remaining snowflake-* secrets.
     ──────────────────────────────────────────────────────────────────
   EOT
 }
