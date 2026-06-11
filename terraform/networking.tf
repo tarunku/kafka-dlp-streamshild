@@ -13,7 +13,7 @@ resource "google_compute_network" "poc_vpc" {
 
 resource "google_compute_subnetwork" "poc_subnet" {
   name                     = "poc-subnet"
-  ip_cidr_range            = "10.0.0.0/24"
+  ip_cidr_range            = "10.0.0.0/22"
   region                   = var.region
   network                  = google_compute_network.poc_vpc.id
   private_ip_google_access = true  # allows VMs without public IPs to reach Google APIs
@@ -63,7 +63,7 @@ resource "google_compute_firewall" "allow_internal" {
     protocol = "all"
   }
 
-  source_ranges = ["10.0.0.0/24"]
+  source_ranges = ["10.0.0.0/22"]
 }
 
 # Rule 4: Allow outbound HTTPS — needed for Confluent Schema Registry,

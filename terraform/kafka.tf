@@ -33,50 +33,20 @@ resource "google_managed_kafka_cluster" "poc_cluster" {
   ]
 }
 
-# Sink connector topic (GCS Sink reads from here)
-resource "google_managed_kafka_topic" "raw_events" {
-  provider           = google-beta
-  topic_id           = "raw-events"
-  cluster            = google_managed_kafka_cluster.poc_cluster.cluster_id
-  location           = var.region
-  project            = var.project_id
-  partition_count    = 3
-  replication_factor = 3
-
-  configs = {
-    "retention.ms"   = "604800000"  # 7 days in milliseconds
-    "cleanup.policy" = "delete"
-  }
-}
-
-# ── Kafka Topics ──────────────────────────────────────────────────────────────
-
-# Primary topic — StreamShield examples write/read here
-resource "google_managed_kafka_topic" "prescription_events" {
-  provider           = google-beta
-  topic_id           = "prescription-events"
-  cluster            = google_managed_kafka_cluster.poc_cluster.cluster_id
-  location           = var.region
-  project            = var.project_id
-  partition_count    = 3
-  replication_factor = 3
-
-  configs = {
-    "retention.ms"   = "604800000"  # 7 days
-    "cleanup.policy" = "delete"
-  }
-}
 
 # ── GCP Managed Schema Registry ───────────────────────────────────────────────
-# NOTE: google_managed_kafka_schema_registry is a Preview-stage resource.
-# If terraform plan errors with "resource type not found", comment this block
-# out and create the schema registry manually via gcloud (see APPLY-GUIDE.md).
+# google_managed_kafka_schema_registry does not exist in hashicorp/google-beta yet.
+# Fall back to gcloud (same pattern as null_resource.connect_cluster above).
 
-resource "google_managed_kafka_schema_registry" "poc_registry" {
-  provider    = google-beta
-  registry_id = "poc-schema-registry"
-  location    = var.region
-  project     = var.project_id
+resource "null_resource" "schema_registry" {
+  provisioner "local-exec" {
+    command = <<-EOT
+      gcloud alpha managed-kafka schema-registries create poc_schema_registry \
+        --location=${var.region} \
+        --project=${var.project_id} \
+        --quiet || echo "Schema registry may already exist, skipping."
+    EOT
+  }
 
   depends_on = [google_managed_kafka_cluster.poc_cluster]
 }
@@ -93,8 +63,9 @@ resource "null_resource" "connect_cluster" {
       gcloud managed-kafka connect-clusters create poc-connect-cluster \
         --location=${var.region} \
         --kafka-cluster=${google_managed_kafka_cluster.poc_cluster.cluster_id} \
-        --vpc-config=network=projects/${var.project_id}/global/networks/${google_compute_network.poc_vpc.name},subnetwork=projects/${var.project_id}/regions/${var.region}/subnetworks/${google_compute_subnetwork.poc_subnet.name} \
-        --gcp-service-account=${google_service_account.dataflow_pipeline_sa.email} \
+        --primary-subnet=projects/${var.project_id}/regions/${var.region}/subnetworks/${google_compute_subnetwork.poc_subnet.name} \
+        --cpu=3 \
+        --memory=3GiB \
         --project=${var.project_id} \
         --quiet || echo "Connect cluster may already exist, skipping."
     EOT
@@ -107,49 +78,6 @@ resource "null_resource" "connect_cluster" {
   ]
 }
 
-# ── GCS Sink Connector ────────────────────────────────────────────────────────
-# Deploys the connector via REST API (same call used in guide 11a).
-# Runs after the connect cluster is active and the GCS bucket exists.
-
-resource "null_resource" "gcs_sink_connector" {
-  provisioner "local-exec" {
-    command = <<-EOT
-      # Fetch Schema Registry URL from Secret Manager
-      SR_URL=$(gcloud secrets versions access latest \
-        --secret=schema-registry-url \
-        --project=${var.project_id} 2>/dev/null || echo "PLACEHOLDER")
-
-      curl -s -X POST \
-        -H "Authorization: Bearer $(gcloud auth print-access-token)" \
-        -H "Content-Type: application/json" \
-        "https://managedkafka.googleapis.com/v1/projects/${var.project_id}/locations/${var.region}/connectClusters/poc-connect-cluster/connectors?connectorId=gcs-sink-order-events" \
-        -d "{
-          \"configs\": {
-            \"connector.class\": \"io.confluent.connect.gcs.GcsSinkConnector\",
-            \"tasks.max\": \"1\",
-            \"topics\": \"raw-events\",
-            \"gcs.bucket.name\": \"${google_storage_bucket.gcs_landing.name}\",
-            \"gcs.credentials.default\": \"true\",
-            \"key.converter\": \"org.apache.kafka.connect.storage.StringConverter\",
-            \"value.converter\": \"io.confluent.connect.avro.AvroConverter\",
-            \"value.converter.schema.registry.url\": \"$SR_URL\",
-            \"value.converter.schemas.enable\": \"false\",
-            \"format.class\": \"io.confluent.connect.gcs.format.json.JsonFormat\",
-            \"file.name.prefix\": \"order-events-\",
-            \"flush.size\": \"10\",
-            \"rotate.interval.ms\": \"60000\",
-            \"rotate.schedule.interval.ms\": \"120000\",
-            \"storage.class\": \"io.confluent.connect.gcs.storage.GcsStorage\",
-            \"locale\": \"en_US\",
-            \"timezone\": \"UTC\"
-          }
-        }" | python3 -m json.tool
-    EOT
-  }
-
-  depends_on = [
-    null_resource.connect_cluster,
-    google_storage_bucket.gcs_landing,
-    google_managed_kafka_schema_registry.poc_registry,
-  ]
-}
+# GCS Sink Connector is created manually after terraform apply.
+# Topics must exist before the connector is deployed.
+# See APPLY-GUIDE.md Phase 3 for the gcloud commands.

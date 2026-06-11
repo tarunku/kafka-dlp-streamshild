@@ -53,7 +53,7 @@ output "kms_pci_key_name" {
 
 output "schema_registry_url" {
   description = "Schema Registry URL — copy this into the schema-registry-url secret"
-  value       = "https://managedkafka.googleapis.com/v1/projects/${var.project_id}/locations/${var.region}/schemaRegistries/poc-schema-registry"
+  value       = "https://managedkafka.googleapis.com/v1/projects/${var.project_id}/locations/${var.region}/schemaRegistries/poc_schema_registry"
 }
 
 output "next_steps" {
@@ -69,7 +69,7 @@ output "next_steps" {
     2. Copy the schema_registry_url output into Secret Manager:
          gcloud secrets versions add schema-registry-url \
            --data-file=- --project=${var.project_id} \
-           <<< "https://managedkafka.googleapis.com/v1/projects/${var.project_id}/locations/${var.region}/schemaRegistries/poc-schema-registry"
+           <<< "https://managedkafka.googleapis.com/v1/projects/${var.project_id}/locations/${var.region}/schemaRegistries/poc_schema_registry"
 
        NOTE: dlp-kms-pii-key-name and dlp-kms-pci-key-name are auto-populated
        by Terraform — no manual action needed for those two secrets.
