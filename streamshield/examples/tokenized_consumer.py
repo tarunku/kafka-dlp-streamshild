@@ -21,7 +21,7 @@ configure_json_logging(level=logging.INFO)
 
 config = SDKConfig(
     gcp=GCPConfig(
-        project_id="vetsource-496203",
+        project_id="terraform-testing-498903",
         use_secret_manager=True,
     )
 )

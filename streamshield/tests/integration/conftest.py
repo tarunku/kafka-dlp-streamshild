@@ -2,7 +2,7 @@
 Integration test configuration.
 
 These tests run against the real GCP environment used in the POC:
-  - GCP Project:   vetsource-496203
+  - GCP Project:   terraform-testing-498903
   - Kafka Topic:   prescription-events
   - Schema Registry subject: prescription-events-value
 
@@ -27,7 +27,7 @@ from streamshield import GCPConfig, SDKConfig
 from streamshield.auth.gcp import GCPAuth
 
 # GCP project and topic for integration tests — mirrors the POC environment
-INTEGRATION_PROJECT_ID = "vetsource-496203"
+INTEGRATION_PROJECT_ID = "terraform-testing-498903"
 INTEGRATION_TOPIC      = "prescription-events"
 INTEGRATION_SUBJECT    = "prescription-events-value"
 DLQ_TOPIC              = "prescription-events.dlq"

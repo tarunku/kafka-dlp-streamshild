@@ -10,7 +10,7 @@ Covers:
   6. Non-PII fields pass through unchanged — medication, quantity, order_date, is_refill.
   7. Same consumer group does not reprocess — offset committed after first successful consume.
 
-All tests run against vetsource-496203.  No mocking.
+All tests run against terraform-testing-498903.  No mocking.
 
 Design pattern:
   - Each test produces 1–20 messages with a unique order_id as the Kafka key.

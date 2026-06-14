@@ -27,7 +27,7 @@ from streamshield.auth.gcp import GCPAuth
 # ── Configuration ──────────────────────────────────────────────────────────────
 # Update PROJECT_ID to match the target GCP project before running.
 
-PROJECT_ID = "vetsource-496203"
+PROJECT_ID = "terraform-testing-498903"
 
 SECRET_PII_WRAPPED_DEK = "dlp-pii-wrapped-dek"
 SECRET_PCI_WRAPPED_DEK = "dlp-pci-wrapped-dek"

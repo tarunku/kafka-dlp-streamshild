@@ -194,7 +194,7 @@ class GCPAuth:
             client = self._get_sm_client()
             name = f"projects/{self._project_id}/secrets/{secret_name}/versions/latest"
             response = client.access_secret_version(request={"name": name})
-            value = response.payload.data.decode("UTF-8")
+            value = response.payload.data.decode("UTF-8").strip()
             self._secret_cache[secret_name] = (value, now)
             return value
         except Exception as exc:

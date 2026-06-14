@@ -2,7 +2,7 @@
 Integration test: Schema Registry operations against the real GCP environment.
 
 These tests verify that SchemaAdmin can fetch, check compatibility, and list
-schemas against the live Schema Registry in vetsource-496203.
+schemas against the live Schema Registry in terraform-testing-498903.
 """
 
 import pytest

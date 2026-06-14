@@ -58,7 +58,7 @@ if "prefill" not in st.session_state:
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
     st.header("Configuration")
-    project_id     = st.text_input("GCP Project ID", value="vetsource-496203")
+    project_id     = st.text_input("GCP Project ID", value="terraform-testing-498903")
     topic          = st.text_input("Kafka Topic", value="prescription-events")
     schema_version = st.number_input("Schema Version", value=1, min_value=1, step=1)
     st.divider()

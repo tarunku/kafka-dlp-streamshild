@@ -52,7 +52,7 @@ configure_logging_metrics(export_interval_ms=10_000)
 # automatically from GCP Secret Manager using the vm-producer-sa service account.
 config = SDKConfig(
     gcp=GCPConfig(
-        project_id="vetsource-496203",
+        project_id="terraform-testing-498903",
         use_secret_manager=True,
         bootstrap_servers_secret="kafka-bootstrap-servers",
         schema_registry_url_secret="schema-registry-url",

@@ -18,7 +18,7 @@ Note on GCP Managed Kafka auto-topic-creation:
   freshness, and describe_topic() was updated to call topic_exists() (all-topics fetch)
   before issuing any targeted request.
 
-All tests run against vetsource-496203.  No mocking.
+All tests run against terraform-testing-498903.  No mocking.
 """
 
 from __future__ import annotations

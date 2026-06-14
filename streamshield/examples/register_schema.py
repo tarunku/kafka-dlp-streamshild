@@ -18,7 +18,7 @@ from schemas.prescription_order import SUBJECT, build_prescription_schema
 
 configure_json_logging(level=logging.INFO)
 
-PROJECT_ID = "vetsource-496203"
+PROJECT_ID = "terraform-testing-498903"
 
 # ── Load key material from Secret Manager ─────────────────────────────────────
 print("Loading KMS keys and wrapped DEKs from Secret Manager...")

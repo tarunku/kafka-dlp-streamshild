@@ -13,7 +13,7 @@ Note on async consumer DLQ behaviour:
   documented in the CLAUDE.md "What Is NOT in This SDK" section.
   The test documents the current behaviour (error logged, offset committed, loop continues).
 
-All tests run against vetsource-496203.  No mocking.
+All tests run against terraform-testing-498903.  No mocking.
 """
 
 from __future__ import annotations

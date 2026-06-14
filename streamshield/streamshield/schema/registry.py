@@ -90,6 +90,11 @@ class SchemaRegistryClient:
         """HTTP POST against the Schema Registry. Raises on non-2xx."""
         url = f"{self._url}{path}"
         resp = requests.post(url, headers=self._auth_headers(), json=payload, timeout=timeout)
+        if resp.status_code == 404:
+            raise SchemaNotFoundError(
+                f"Schema Registry returned 404 for path: {path}",
+                safe_context={"path": path},
+            )
         resp.raise_for_status()
         return resp.json()
 
