@@ -33,6 +33,10 @@ metrics = [
     "opentelemetry-sdk>=1.23.0",
     "opentelemetry-exporter-prometheus>=0.44b0",
 ]
+# GCS consumer example — write Avro streams to Google Cloud Storage
+gcs = [
+    "google-cloud-storage>=2.16.0",
+]
 # Streamlit demo apps — web UI for producer and consumer examples
 streamlit = [
     "streamlit>=1.35.0",
