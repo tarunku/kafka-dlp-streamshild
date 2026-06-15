@@ -10,7 +10,7 @@
 # ── GCP ────────────────────────────────────────────────────────────────────────
 gcp:
   # GCP project that owns Kafka, DLP, KMS, and Secret Manager — REQUIRED
-  project_id: "terraform-testing-498903"
+  project_id: "vetsource-496203"
 
   # Location for Cloud DLP API calls ("global" works across all regions)
   dlp_location: "global"
@@ -25,8 +25,8 @@ gcp:
   # ── OPTION B: Direct values (laptop / local dev) ────────────────────────────
   # Uncomment these two lines and set use_secret_manager: false to skip Secret Manager.
   # use_secret_manager: false
-  # bootstrap_servers: "bootstrap.poc-kafka-cluster.us-central1.managedkafka.terraform-testing-498903.cloud.goog:9092"
-  # schema_registry_url: "https://managedkafka.googleapis.com/v1/projects/terraform-testing-498903/locations/us-central1/schemaRegistries/poc_schema_registry"
+  # bootstrap_servers: "bootstrap.poc-kafka-cluster.us-central1.managedkafka.vetsource-496203.cloud.goog:9092"
+  # schema_registry_url: "https://managedkafka.googleapis.com/v1/projects/vetsource-496203/locations/us-central1/schemaRegistries/poc_schema_registry"
 
   # Refresh the ADC Bearer token this many seconds before it expires.
   # Prevents SASL auth failures in long-running producers/consumers.

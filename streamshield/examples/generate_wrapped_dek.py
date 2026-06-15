@@ -19,15 +19,19 @@
 
 import base64
 import os
+from pathlib import Path
 
 from google.cloud import kms, secretmanager
 
+from streamshield import SDKConfig
 from streamshield.auth.gcp import GCPAuth
 
 # ── Configuration ──────────────────────────────────────────────────────────────
-# Update PROJECT_ID to match the target GCP project before running.
+# PROJECT_ID is read from examples/streamshield-config.yaml — edit that file to
+# target a different GCP project.
 
-PROJECT_ID = "terraform-testing-498903"
+_CONFIG_FILE = Path(__file__).parent / "streamshield-config.yaml"
+PROJECT_ID   = SDKConfig.from_yaml(str(_CONFIG_FILE)).gcp.project_id
 
 SECRET_PII_WRAPPED_DEK = "dlp-pii-wrapped-dek"
 SECRET_PCI_WRAPPED_DEK = "dlp-pci-wrapped-dek"

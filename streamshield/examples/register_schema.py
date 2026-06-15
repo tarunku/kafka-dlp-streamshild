@@ -10,18 +10,21 @@ Run:
 """
 
 import logging
+from pathlib import Path
 
-from streamshield import CompatibilityMode, GCPConfig, SchemaAdmin, SDKConfig
+from streamshield import CompatibilityMode, SchemaAdmin, SDKConfig
 from streamshield.auth.gcp import GCPAuth
 from streamshield.observability.logging import configure_json_logging
 from schemas.prescription_order import SUBJECT, build_prescription_schema
 
 configure_json_logging(level=logging.INFO)
 
-PROJECT_ID = "terraform-testing-498903"
+_CONFIG_FILE = Path(__file__).parent / "streamshield-config.yaml"
+config     = SDKConfig.from_yaml(str(_CONFIG_FILE))
+PROJECT_ID = config.gcp.project_id
 
 # ── Load key material from Secret Manager ─────────────────────────────────────
-print("Loading KMS keys and wrapped DEKs from Secret Manager...")
+print(f"Loading KMS keys and wrapped DEKs from Secret Manager (project: {PROJECT_ID})...")
 
 auth = GCPAuth(project_id=PROJECT_ID)
 pii_kms_key_name    = auth.get_secret("dlp-kms-pii-key-name")
@@ -41,7 +44,6 @@ schema = build_prescription_schema(
 )
 
 # ── Register with Schema Registry ─────────────────────────────────────────────
-config = SDKConfig(gcp=GCPConfig(project_id=PROJECT_ID, use_secret_manager=True))
 admin  = SchemaAdmin(config)
 
 print(f"\nRegistering schema under subject '{SUBJECT}'...")

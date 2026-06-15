@@ -11,7 +11,7 @@ Covers every path that routes a message to the DLQ:
   7. DLQ message format      — every required field present and correct.
   8. DLQ values are JSON     — raw consumer can parse DLQ payloads.
 
-All tests run against the real GCP environment (terraform-testing-498903).
+All tests run against the real GCP environment (vetsource-496203).
 No mocking.
 
 DLQ strategy:
@@ -42,7 +42,6 @@ from streamshield import (
 from streamshield.consumer.dlq import DLQRouter
 from tests.integration.conftest import (
     DLQ_TOPIC,
-    INTEGRATION_PROJECT_ID,
     INTEGRATION_TOPIC,
 )
 

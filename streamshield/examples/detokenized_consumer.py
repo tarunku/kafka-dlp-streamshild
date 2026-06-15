@@ -14,8 +14,9 @@ Run (from a VM with the authorized service account):
 
 import json
 import logging
+from pathlib import Path
 
-from streamshield import ConsumedMessage, GCPConfig, KafkaConsumer, SDKConfig
+from streamshield import ConsumedMessage, KafkaConsumer, SDKConfig
 from streamshield.dlp.policy import get_tokenized_fields
 from streamshield.observability.logging import configure_json_logging
 
@@ -34,12 +35,8 @@ logging.getLogger("streamshield").addHandler(file_handler)
 
 
 
-config = SDKConfig(
-    gcp=GCPConfig(
-        project_id="terraform-testing-498903",
-        use_secret_manager=True,
-    )
-)
+_CONFIG_FILE = Path(__file__).parent / "streamshield-config.yaml"
+config = SDKConfig.from_yaml(str(_CONFIG_FILE))
 
 TOPIC    = "prescription-events"
 GROUP_ID = "streamshield-detokenized-consumer"

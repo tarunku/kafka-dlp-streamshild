@@ -39,7 +39,7 @@ if "session_id" not in st.session_state:
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
     st.header("Configuration")
-    project_id        = st.text_input("GCP Project ID", value="terraform-testing-498903")
+    project_id        = st.text_input("GCP Project ID", value="vetsource-496203")
     topic             = st.text_input("Kafka Topic", value="prescription-events")
     auto_offset_reset = st.selectbox("Start From", ["earliest", "latest"], index=0)
     st.divider()

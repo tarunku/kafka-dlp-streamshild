@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import threading
 import time
+import urllib.request
 
 import google.auth
 import google.auth.transport.requests
@@ -75,8 +76,17 @@ class GCPAuth:
             creds.refresh(google.auth.transport.requests.Request())
             self._credentials = creds
 
-            # Service account email is available on SA credentials; use 'unknown' otherwise
-            self._service_account_email = getattr(creds, "service_account_email", "unknown")
+            # Service account email resolution:
+            #   - SA key credentials:         creds.service_account_email is the real email
+            #   - GCE metadata credentials:   creds.service_account_email is 'default';
+            #                                 fetch the real email from the metadata server
+            #   - User/ADC credentials:       no service_account_email; use empty string
+            #                                 so the SASL username matches the token's email
+            email = getattr(creds, "service_account_email", "") or ""
+            if email in ("default", "unknown"):
+                # Only reach here for Compute Engine credentials — safe to hit metadata server
+                email = self._fetch_sa_email_from_metadata()
+            self._service_account_email = email or ""
 
             auth_logger.info(
                 "GCP credentials refreshed. SA: %s token_expiry=%s",
@@ -88,6 +98,22 @@ class GCPAuth:
             raise TokenRefreshError(
                 f"Failed to refresh GCP Application Default Credentials: {exc}"
             ) from exc
+
+    def _fetch_sa_email_from_metadata(self) -> str:
+        """
+        Fetch the active service account email from the GCE instance metadata server.
+        Used when Compute Engine credentials don't expose the real email (they return
+        'default' instead). Returns '' on any error so the caller can decide the fallback.
+        """
+        try:
+            req = urllib.request.Request(
+                "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/email",
+                headers={"Metadata-Flavor": "Google"},
+            )
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                return resp.read().decode("utf-8").strip()
+        except Exception:
+            return ""
 
     def is_token_expiring_soon(self) -> bool:
         """

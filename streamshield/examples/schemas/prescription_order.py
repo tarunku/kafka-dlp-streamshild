@@ -50,8 +50,8 @@ def build_prescription_schema(
         from streamshield import SchemaAdmin, SDKConfig, GCPConfig, CompatibilityMode
         from streamshield.auth.gcp import GCPAuth
 
-        config = SDKConfig(gcp=GCPConfig(project_id="terraform-testing-498903"))
-        auth   = GCPAuth(project_id="terraform-testing-498903")
+        config = SDKConfig(gcp=GCPConfig(project_id="vetsource-496203"))
+        auth   = GCPAuth(project_id="vetsource-496203")
         pii_kms_key     = auth.get_secret("dlp-kms-pii-key-name")
         pci_kms_key     = auth.get_secret("dlp-kms-pci-key-name")
         pii_wrapped_dek = auth.get_secret("dlp-pii-wrapped-dek")

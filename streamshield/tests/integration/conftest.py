@@ -1,12 +1,14 @@
 """
 Integration test configuration.
 
-These tests run against the real GCP environment used in the POC:
-  - GCP Project:   terraform-testing-498903
+These tests run against the real GCP environment (project read from
+examples/streamshield-config.yaml). To target a different project,
+edit that file or set the STREAMSHIELD_CONFIG env var to an alternate path.
+
   - Kafka Topic:   prescription-events
   - Schema Registry subject: prescription-events-value
 
-Prerequisites (same as the POC):
+Prerequisites:
   - Run on the GCE VM with vm-producer-sa attached (ADC available)
   - OR set GOOGLE_APPLICATION_CREDENTIALS to a service account key file
   - All Secret Manager secrets must be populated (see POC setup guide)
@@ -18,16 +20,25 @@ Skip:
     pytest tests/unit/ -v   (skips integration tests entirely)
 """
 
+import os
 import time
+from pathlib import Path
 
 import pytest
 from confluent_kafka import Consumer as ConfluentConsumer, Producer as ConfluentProducer
 
-from streamshield import GCPConfig, SDKConfig
+from streamshield import SDKConfig
 from streamshield.auth.gcp import GCPAuth
 
-# GCP project and topic for integration tests — mirrors the POC environment
-INTEGRATION_PROJECT_ID = "terraform-testing-498903"
+# Load config from the shared YAML file — override via STREAMSHIELD_CONFIG env var.
+_CONFIG_FILE = os.environ.get(
+    "STREAMSHIELD_CONFIG",
+    str(Path(__file__).parent.parent.parent / "examples" / "streamshield-config.yaml"),
+)
+_config = SDKConfig.from_yaml(_CONFIG_FILE)
+
+# GCP project is the single source of truth — derived from the YAML config.
+INTEGRATION_PROJECT_ID = _config.gcp.project_id
 INTEGRATION_TOPIC      = "prescription-events"
 INTEGRATION_SUBJECT    = "prescription-events-value"
 DLQ_TOPIC              = "prescription-events.dlq"
@@ -36,17 +47,10 @@ DLQ_TOPIC              = "prescription-events.dlq"
 @pytest.fixture(scope="session")
 def integration_config() -> SDKConfig:
     """
-    SDKConfig wired to the POC GCP project.
+    SDKConfig loaded from examples/streamshield-config.yaml.
     Secrets are loaded from GCP Secret Manager automatically.
     """
-    return SDKConfig(
-        gcp=GCPConfig(
-            project_id=INTEGRATION_PROJECT_ID,
-            use_secret_manager=True,
-            bootstrap_servers_secret="kafka-bootstrap-servers",
-            schema_registry_url_secret="schema-registry-url",
-        )
-    )
+    return _config
 
 
 @pytest.fixture(scope="session")

@@ -24,8 +24,9 @@ import logging
 import random
 import time
 import uuid
+from pathlib import Path
 
-from streamshield import GCPConfig, KafkaProducer, SDKConfig, configure_json_logging, configure_logging_metrics
+from streamshield import KafkaProducer, SDKConfig, configure_json_logging, configure_logging_metrics
 
 # ── Logging setup ──────────────────────────────────────────────────────────────
 configure_json_logging(level=logging.INFO)
@@ -48,16 +49,10 @@ logging.getLogger("streamshield").addHandler(file_handler)
 configure_logging_metrics(export_interval_ms=10_000)
 
 # ── Configuration ──────────────────────────────────────────────────────────────
-# All secrets (bootstrap servers, schema registry URL, DLP keys) are loaded
-# automatically from GCP Secret Manager using the vm-producer-sa service account.
-config = SDKConfig(
-    gcp=GCPConfig(
-        project_id="terraform-testing-498903",
-        use_secret_manager=True,
-        bootstrap_servers_secret="kafka-bootstrap-servers",
-        schema_registry_url_secret="schema-registry-url",
-    )
-)
+# All settings (project_id, secrets config, DLP options) are loaded from the
+# shared YAML config file. Edit examples/streamshield-config.yaml to change targets.
+_CONFIG_FILE = Path(__file__).parent / "streamshield-config.yaml"
+config = SDKConfig.from_yaml(str(_CONFIG_FILE))
 
 TOPIC         = "prescription-events"
 MESSAGE_COUNT = 5
